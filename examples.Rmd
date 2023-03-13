@@ -1,0 +1,97 @@
+---
+title: "MandelbRot Examples"
+author: "james.campbell@crick.ac.uk"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+source("./mandelbRot.R")
+```
+
+
+# Overview
+
+
+
+
+# Estimate complex numbers in the Mandelbrot Set
+
+
+```{r}
+mandelbrot = calculate_mandelbrot_set()
+# mandelbrot = calculate_mandelbrot_set(increment = 0.0005)
+```
+
+
+
+
+# Visualise 
+
+```{r}
+image(
+  t(mandelbrot[nrow(mandelbrot):1,]),
+  col = rev(terrain.colors(512)),
+  xaxt="n",
+  yaxt="n"
+  )
+
+image(
+  t(log10(mandelbrot[nrow(mandelbrot):1,])),
+  col = rev(terrain.colors(512)),
+  xaxt="n",
+  yaxt="n"
+  )
+```
+
+
+```{r eval = FALSE}
+png(
+  "mandelbrot_set.png",
+  width = ncol(mandelbrot),
+  height = nrow(mandelbrot),
+  res = 600
+  )
+par(mai=c(0,0,0,0))
+image(
+  t(log10(mandelbrot[nrow(mandelbrot):1,])),
+  col = rev(terrain.colors(512)),
+  xaxt="n",
+  yaxt="n"
+  )
+dev.off()
+
+```
+
+
+
+
+
+# Estimate steady-states in the logistic map
+
+
+```{r eval = FALSE}
+lmap = calculate_logistic_map(itr = 40, ignore_itr = 30, r_inc = 0.0005)
+```
+
+
+# Plot the logistic map - with zooming
+
+
+This won't work in a Rmarkdown document. Paste the code into the console.
+
+```{r eval = FALSE}
+plot_logistic_map(
+  lmap,
+  zoom_per_click=1.3
+  )
+```
+
+
+
+
+
+
+

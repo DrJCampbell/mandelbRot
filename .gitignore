@@ -1,3 +1,8 @@
+# Project specific ignores
+*.png
+*.html
+*.pdf
+
 # History files
 .Rhistory
 .Rapp.history
