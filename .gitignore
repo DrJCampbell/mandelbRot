@@ -1,7 +1,5 @@
 # Project specific ignores
 *.png
-*.html
-*.pdf
 
 # History files
 .Rhistory
