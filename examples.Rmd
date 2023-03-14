@@ -2,7 +2,7 @@
 title: "MandelbRot Examples"
 author: "james.campbell@crick.ac.uk"
 date: "`r Sys.Date()`"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -14,11 +14,16 @@ source("./mandelbRot.R")
 
 # Overview
 
+The file `mandelbRot.R` contains some basic functions to estimate complex numbers in the Mandelbrot set and steady-states of the logistic map. This R markdown file (`examples.Rmd`) contains code to demonstrate the use of these functions.
 
+The goal is to eventually create clickable plots with functions that can write PNG files and then zoom into the plot further. These collections of PNG files can then be stitched together using ffmpeg.
 
 
 # Estimate complex numbers in the Mandelbrot Set
 
+* `calculate_mandelbrot_set()` iterates `z = z^2 + z0`
+* If the real value goes to infinity, `NA` is set
+* Otherwise, the value is the number of iterations until `z > 2`
 
 ```{r}
 mandelbrot = calculate_mandelbrot_set()
@@ -26,18 +31,23 @@ mandelbrot = calculate_mandelbrot_set()
 ```
 
 
-
-
 # Visualise 
 
-```{r}
+* Here we are plotting the iteration matrix using terrain.colours in reverse order
+* The matrix rows are reversed in order and the matrix is transposed to give the classic orentation of the cardioid.
+
+```{r fig.asp=1}
 image(
   t(mandelbrot[nrow(mandelbrot):1,]),
   col = rev(terrain.colors(512)),
   xaxt="n",
   yaxt="n"
   )
+```
 
+* Log-transforming the iterations matrix values makes the details more obvious
+
+```{r fig.asp=1}
 image(
   t(log10(mandelbrot[nrow(mandelbrot):1,])),
   col = rev(terrain.colors(512)),
@@ -71,9 +81,16 @@ dev.off()
 
 # Estimate steady-states in the logistic map
 
+* `calculate_logistic_map()` estimates the stead-state values of the logistic map `x = r * x * (1-x)`
+* Here, the first 30 values are ignored
+* The values of x in the final 10 iterations are recorded
 
 ```{r eval = FALSE}
-lmap = calculate_logistic_map(itr = 40, ignore_itr = 30, r_inc = 0.0005)
+lmap = calculate_logistic_map(
+  itr = 40,
+  ignore_itr = 30,
+  r_inc = 0.0005
+  )
 ```
 
 
